@@ -2,8 +2,8 @@ import asyncio
 import logging
 import pprint
 import signal
-from typing import Coroutine, Iterable
-
+from typing import Coroutine
+from typing import Iterable
 
 logger = logging.getLogger(__name__)
 
@@ -27,3 +27,8 @@ async def simple_main(coroutines: Iterable[Coroutine]):
         task.cancel()
     res = await asyncio.gather(*tasks, return_exceptions=True)
     logger.debug("tasks : %s", pprint.pformat(res))
+
+
+async def simple_main_factory(factory: Coroutine[None, None, Iterable[Coroutine]]):
+    coroutines = await factory
+    await simple_main(coroutines)
