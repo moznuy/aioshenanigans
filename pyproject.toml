@@ -1,6 +1,48 @@
+[project]
+name = "aioshenanigans"
+version = "0.0.5"
+description = "A small helper package for common patterns in asyncio"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Serhii Charykov", email = "serhii.charykov@gmail.com"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: AsyncIO",
+]
+
+
+[project.urls]
+Repository = "https://github.com/moznuy/aioshenanigans.git"
+
 [build-system]
 requires = [
     "setuptools>=42",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+# packages = ["aioshenanigans"]
+
+# [tool.setuptools.packages.find]
+# where = ["src"]
+
+
+
+
+# [options]
+# package_dir =
+#     = src
+# packages = find:
+
+# [options.packages.find]
+# where = src
+
+# [options.package_data]
+# aioshenanigans = py.typed
