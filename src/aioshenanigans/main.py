@@ -4,6 +4,7 @@ import pprint
 import signal
 from typing import Coroutine
 from typing import Iterable
+from typing import AsyncContextManager
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ def _signal_callback(quit_event: asyncio.Event) -> None:
     quit_event.set()
 
 
-async def simple_main(coroutines: Iterable[Coroutine]):
+async def simple_main(coroutines: Iterable[Coroutine]) -> None:
     loop = asyncio.get_event_loop()
 
     quit_event = asyncio.Event()
@@ -29,6 +30,11 @@ async def simple_main(coroutines: Iterable[Coroutine]):
     logger.debug("tasks : %s", pprint.pformat(res))
 
 
-async def simple_main_factory(factory: Coroutine[None, None, Iterable[Coroutine]]):
+async def simple_main_factory(factory: Coroutine[None, None, Iterable[Coroutine]]) -> None:
     coroutines = await factory
     await simple_main(coroutines)
+
+
+async def simple_main_context(contex: AsyncContextManager) -> None:
+    async with contex:
+        await simple_main([])

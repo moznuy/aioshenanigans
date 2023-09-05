@@ -6,8 +6,8 @@ build: clean
 test-push:
 	python -m twine upload --repository testpypi dist/*
 
-.PHONY: push
-push: build
+.PHONY: publish
+publish: build
 	python -m twine upload --repository aioshenanigans dist/*
 
 .PHONY: clean
