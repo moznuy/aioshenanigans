@@ -25,24 +25,3 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-include-package-data = true
-# packages = ["aioshenanigans"]
-
-# [tool.setuptools.packages.find]
-# where = ["src"]
-
-
-
-
-# [options]
-# package_dir =
-#     = src
-# packages = find:
-
-# [options.packages.find]
-# where = src
-
-# [options.package_data]
-# aioshenanigans = py.typed

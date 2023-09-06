@@ -1,19 +1,25 @@
+from __future__ import annotations
+
 import asyncio
 import logging
 import pprint
 import signal
-from typing import Coroutine
-from typing import Iterable
-from typing import AsyncContextManager
+from collections.abc import Coroutine
+from collections.abc import Iterable
+from contextlib import AbstractAsyncContextManager
+from typing import Any
 
 logger = logging.getLogger(__name__)
+
+
+CoroutineAnyReturn = Coroutine[None, None, Any]
 
 
 def _signal_callback(quit_event: asyncio.Event) -> None:
     quit_event.set()
 
 
-async def simple_main(coroutines: Iterable[Coroutine]) -> None:
+async def simple_main(coroutines: Iterable[CoroutineAnyReturn]) -> None:
     loop = asyncio.get_event_loop()
 
     quit_event = asyncio.Event()
@@ -30,11 +36,13 @@ async def simple_main(coroutines: Iterable[Coroutine]) -> None:
     logger.debug("tasks : %s", pprint.pformat(res))
 
 
-async def simple_main_factory(factory: Coroutine[None, None, Iterable[Coroutine]]) -> None:
+async def simple_main_factory(
+    factory: Coroutine[None, None, Iterable[CoroutineAnyReturn]]
+) -> None:
     coroutines = await factory
     await simple_main(coroutines)
 
 
-async def simple_main_context(contex: AsyncContextManager) -> None:
+async def simple_main_context(contex: AbstractAsyncContextManager[Any]) -> None:
     async with contex:
         await simple_main([])

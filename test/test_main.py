@@ -1,4 +1,7 @@
 import asyncio
+from collections.abc import Coroutine
+from typing import Any
+
 import pytest
 import os
 import signal
@@ -9,20 +12,21 @@ from aioshenanigans import simple_main
 from aioshenanigans import simple_main_factory
 from aioshenanigans import simple_main_context
 
-async def big():
+
+async def big() -> None:
     while True:
         await asyncio.sleep(1)
 
 
-async def small():
+async def small() -> None:
     await asyncio.sleep(1)
 
 
 @pytest.mark.asyncio
-async def test_simple_main():
+async def test_simple_main() -> None:
     coroutines = [big(), small()]
 
-    async def task():
+    async def task() -> None:
         await asyncio.sleep(0.1)
         os.kill(os.getpid(), signal.SIGINT)
 
@@ -33,11 +37,11 @@ async def test_simple_main():
 
 
 @pytest.mark.asyncio
-async def test_simple_main_factory():
-    async def helper():
+async def test_simple_main_factory() -> None:
+    async def helper() -> list[Coroutine[None, None, Any]]:
         return [big(), small()]
 
-    async def task():
+    async def task() -> None:
         await asyncio.sleep(0.1)
         os.kill(os.getpid(), signal.SIGINT)
 
